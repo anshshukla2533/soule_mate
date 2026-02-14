@@ -20,33 +20,24 @@ export default function ChatRoom({ matchId }: { matchId: string }) {
     const scrollRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
+        const fetchMessages = async () => {
+            try {
+                const res = await fetch(`/api/messages?matchId=${matchId}`);
+                const data = await res.json();
+                if (data.messages) {
+                    setMessages(data.messages);
+                }
+            } catch (_err) {
+                console.error('Fetch messages error:', _err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
         fetchMessages();
         const interval = setInterval(fetchMessages, 3000); // Polling every 3s
         return () => clearInterval(interval);
     }, [matchId]);
-
-    useEffect(() => {
-        if (scrollRef.current) {
-            scrollRef.current.scrollTo({
-                top: scrollRef.current.scrollHeight,
-                behavior: 'smooth'
-            });
-        }
-    }, [messages]);
-
-    const fetchMessages = async () => {
-        try {
-            const res = await fetch(`/api/messages?matchId=${matchId}`);
-            const data = await res.json();
-            if (data.messages) {
-                setMessages(data.messages);
-            }
-        } catch (err) {
-            console.error('Fetch messages error:', err);
-        } finally {
-            setLoading(false);
-        }
-    };
 
     const sendMessage = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -145,8 +136,8 @@ export default function ChatRoom({ matchId }: { matchId: string }) {
                                 )}
                                 <div
                                     className={`max-w-[75%] px-6 py-4 rounded-[1.75rem] text-sm font-medium shadow-sm transition-all relative ${isMe
-                                            ? 'love-gradient text-white rounded-tr-none shadow-rose-200/50'
-                                            : 'bg-white/80 backdrop-blur-md text-gray-700 rounded-tl-none shadow-gray-100 border border-white'
+                                        ? 'love-gradient text-white rounded-tr-none shadow-rose-200/50'
+                                        : 'bg-white/80 backdrop-blur-md text-gray-700 rounded-tl-none shadow-gray-100 border border-white'
                                         }`}
                                 >
                                     {msg.content}

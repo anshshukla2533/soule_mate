@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useSession, signOut } from 'next-auth/react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import RecommendedTasks from '@/components/RecommendedTasks';
@@ -43,8 +44,8 @@ export default function DashboardPage() {
             const res = await fetch('/api/matches');
             const data = await res.json();
             setMatch(data.match);
-        } catch (err) {
-            console.error('Failed to fetch match:', err);
+        } catch (_err) {
+            console.error('Failed to fetch match:', _err);
         }
     };
 
@@ -55,8 +56,8 @@ export default function DashboardPage() {
             if (data.friends) {
                 setFriends(data.friends);
             }
-        } catch (err) {
-            console.error('Failed to fetch friends:', err);
+        } catch (_err) {
+            console.error('Failed to fetch friends:', _err);
         }
     };
 
@@ -85,7 +86,7 @@ export default function DashboardPage() {
                 const data = await res.json();
                 setError(data.error || 'Failed to sync with the stars');
             }
-        } catch (err) {
+        } catch (_err) {
             setError('The universe is fluctuating. Try again.');
         } finally {
             setActionLoading(false);
@@ -111,7 +112,7 @@ export default function DashboardPage() {
             } else {
                 setError('Vibration failed. Check your connection.');
             }
-        } catch (err) {
+        } catch (_err) {
             setError('The stars are clouded. Could not upload.');
         } finally {
             setUploading(false);
@@ -176,7 +177,7 @@ export default function DashboardPage() {
                         <div className="space-y-4">
                             {m.taskProofUrl && (
                                 <div className="aspect-video w-full rounded-2xl overflow-hidden border-4 border-white/20 shadow-lg mb-2">
-                                    <img src={m.taskProofUrl} alt="Proof" className="w-full h-full object-cover" />
+                                    <Image src={m.taskProofUrl} alt="Proof" fill className="object-cover" />
                                 </div>
                             )}
                             <div className="flex items-center justify-center gap-2 px-6 py-4 bg-emerald-500/40 rounded-2xl border border-emerald-400/50 mb-4">
@@ -213,7 +214,7 @@ export default function DashboardPage() {
             } else {
                 setError(data.error || 'The universe is busy. Try again later!');
             }
-        } catch (err) {
+        } catch (_err) {
             setError('An error occurred while calling the stars');
         } finally {
             setFinding(false);

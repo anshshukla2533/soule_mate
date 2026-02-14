@@ -12,7 +12,7 @@ interface Experience {
 }
 
 export default function TaskExperienceSection({ matchId }: { matchId: string }) {
-    const { data: session } = useSession();
+    const { data: _session } = useSession();
     const [experiences, setExperiences] = useState<Experience[]>([]);
     const [content, setContent] = useState('');
     const [proofUrl, setProofUrl] = useState('');
@@ -20,22 +20,22 @@ export default function TaskExperienceSection({ matchId }: { matchId: string }) 
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        const fetchExperiences = async () => {
+            try {
+                const res = await fetch(`/api/tasks/experience?matchId=${matchId}`);
+                const data = await res.json();
+                if (data.experiences) {
+                    setExperiences(data.experiences);
+                }
+            } catch (_err) {
+                console.error('Fetch experiences error:', _err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
         fetchExperiences();
     }, [matchId]);
-
-    const fetchExperiences = async () => {
-        try {
-            const res = await fetch(`/api/tasks/experience?matchId=${matchId}`);
-            const data = await res.json();
-            if (data.experiences) {
-                setExperiences(data.experiences);
-            }
-        } catch (err) {
-            console.error('Fetch experiences error:', err);
-        } finally {
-            setLoading(false);
-        }
-    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();

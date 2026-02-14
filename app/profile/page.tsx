@@ -25,7 +25,7 @@ export default function ProfilePage() {
             const res = await fetch('/api/traits');
             const data = await res.json();
             setTraits(data.traits);
-        } catch (err) {
+        } catch (_err) {
             setError('Failed to load traits');
         } finally {
             setLoading(false);
@@ -61,7 +61,7 @@ export default function ProfilePage() {
             } else {
                 setError('Failed to update your heart settings');
             }
-        } catch (err) {
+        } catch (_err) {
             setError('An error occurred');
         } finally {
             setSubmitting(false);

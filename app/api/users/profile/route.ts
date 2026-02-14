@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 
-export async function GET(request: NextRequest) {
+export async function GET() {
     try {
         const session = await getServerSession(authOptions);
 
@@ -26,11 +26,11 @@ export async function GET(request: NextRequest) {
             return NextResponse.json({ error: 'User not found' }, { status: 404 });
         }
 
-        const { password, ...userWithoutPassword } = user;
+        const { password: _password, ...userWithoutPassword } = user;
 
         return NextResponse.json({ user: userWithoutPassword });
-    } catch (error) {
-        console.error('Profile fetch error:', error);
+    } catch (_error) {
+        console.error('Profile fetch error:', _error);
         return NextResponse.json({ error: 'Failed to fetch profile' }, { status: 500 });
     }
 }
@@ -74,8 +74,8 @@ export async function PUT(request: NextRequest) {
         });
 
         return NextResponse.json({ user, message: 'Profile updated successfully' });
-    } catch (error) {
-        console.error('Profile update error:', error);
+    } catch (_error) {
+        console.error('Profile update error:', _error);
         return NextResponse.json({ error: 'Failed to update profile' }, { status: 500 });
     }
 }
