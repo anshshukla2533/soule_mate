@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String           @id @default(cuid())
+  email           String           @unique
+  password        String
+  name            String
+  gender          String
+  age             Int
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  matchesAsGirl   Match[]          @relation("GirlMatches")
+  matchesAsBoy    Match[]          @relation("BoyMatches")
+  messages        Message[]
+  taskExperiences TaskExperience[]
+  traits          UserTrait[]
+}
+
+model PersonalityTrait {
+  id    String      @id @default(cuid())
+  name  String      @unique
+  tasks Task[]
+  users UserTrait[]
+}
+
+model UserTrait {
+  userId  String
+  traitId String
+  trait   PersonalityTrait @relation(fields: [traitId], references: [id], onDelete: Cascade)
+  user    User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, traitId])
+}
+
+model Task {
+  id          String           @id @default(cuid())
+  title       String
+  description String
+  category    String
+  difficulty  String           @default("medium")
+  traitId     String
+  matches     Match[]
+  trait       PersonalityTrait @relation(fields: [traitId], references: [id], onDelete: Cascade)
+}
+
+model Match {
+  id              String           @id @default(cuid())
+  status          String           @default("pending")
+  taskStatus      String           @default("pending") // pending, ongoing, completed
+  taskProofUrl    String?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  boyId           String
+  girlId          String
+  taskId          String
+  task            Task             @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  girl            User             @relation("GirlMatches", fields: [girlId], references: [id], onDelete: Cascade)
+  boy             User             @relation("BoyMatches", fields: [boyId], references: [id], onDelete: Cascade)
+  messages        Message[]
+  taskExperiences TaskExperience[]
+
+  @@unique([boyId, girlId])
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  content   String
+  createdAt DateTime @default(now())
+  senderId  String
+  matchId   String
+  match     Match    @relation(fields: [matchId], references: [id], onDelete: Cascade)
+  sender    User     @relation(fields: [senderId], references: [id], onDelete: Cascade)
+}
+
+model TaskExperience {
+  id        String   @id @default(cuid())
+  content   String
+  proofUrl  String?
+  createdAt DateTime @default(now())
+  userId    String
+  matchId   String
+  match     Match    @relation(fields: [matchId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

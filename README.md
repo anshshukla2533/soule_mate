@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌹 Start Forever
 
-## Getting Started
+**Start Forever** is a premium, high-aesthetic matchmaking and intimacy-building platform designed to help souls find their perfect rhythm. Built with a "god-level" design philosophy, it focuses on shared experiences, personality alignment, and meaningful connections.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## ✨ Key Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **💘 Vibrational Matching**: Find compatible partners based on your core personality traits and gender preferences.
+- **🛡️ Strict Safety**: Built-in validation ensures matches follow gender-parity rules (Boy/Girl matches only).
+- **📜 Shared Quests**: Embark on curated challenges with your partner to build intimacy.
+- **📸 Proof of Harmony**: Upload memories and proof of work to complete shared tasks.
+- **🌸 Friends Sanctuary**: A dedicated space for your most meaningful connections to persist, complete with chat and ongoing quests.
+- **🎭 Personality Trails**: Deeply integrated trait system that influences recommended tasks and matching accuracy.
+- **💬 Heart Stream**: Real-time chat to keep the conversation flowing.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🚀 Tech Stack
 
-## Learn More
+- **Framework**: [Next.js 15+](https://nextjs.org/) (App Router)
+- **Database**: [Prisma](https://www.prisma.io/) with SQLite
+- **Authentication**: [NextAuth.js](https://next-auth.js.org/) (Credentials Provider)
+- **Styling**: Vanilla CSS with Tailwind CSS for rapid, fluid layout design
+- **Security**: Bcrypt for password hashing and strict API-level validation
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🛠️ Getting Started
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Prerequisites
 
-## Deploy on Vercel
+- Node.js 18+
+- npm or pnpm
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Installation
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Clone the repository**:
+   ```bash
+   git clone <repository-url>
+   cd cfc
+   ```
+
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+
+3. **Set up Environment Variables**:
+   Create a `.env` file in the root directory:
+   ```env
+   DATABASE_URL="file:./dev.db"
+   NEXTAUTH_SECRET="your-secret-here"
+   NEXTAUTH_URL="http://localhost:3000"
+   ```
+
+4. **Initialize the Database**:
+   ```bash
+   npx prisma generate
+   npx prisma migrate dev --name init
+   npx prisma db seed
+   ```
+
+5. **Run the development server**:
+   ```bash
+   npm run dev
+   ```
+
+6. Open [http://localhost:3000](http://localhost:3000) to begin your journey.
+
+---
+
+## 📂 Project Structure
+
+- `app/api/`: Backend routes for matches, friends, traits, and tasks.
+- `components/`: Reusable UI components including `ChatRoom` and `RecommendedTasks`.
+- `prisma/`: Database schema and seed data.
+- `lib/`: Shared utilities, Prisma client, and auth configuration.
+
+---
+
+## 📜 License
+
+Created with ❤️ for meaningful connections.
